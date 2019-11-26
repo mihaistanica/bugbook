@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+    
+
+    <script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.3.0/firebase-storage.js"></script>
+</head>
+
+<body class="bg-light">
+        <div class="container-fluid p-0" style="-webkit-box-shadow:0px 1px 5px #9e9e9e;
+        -moz-box-shadow:0px 1px 5px -1px #9e9e9e;
+        box-shadow:0px 1px 5px -4px #9e9e9e;">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light w-75 mx-auto">
+                <div class="d-flex flex-grow-1">
+                    <a class="navbar-brand d-lg-inline-block font-weight-bold text-dark" href="#">
+                        BugBook
+                    </a>
+
+                    <div class="w-100 text-right">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="collapse navbar-collapse flex-grow-1 text-right" id="myNavbar">
+                    <ul class="navbar-nav ml-auto flex-nowrap">
+                            <li class="nav-item">
+                                <a href="/index.html" class="nav-link m-2 menu-item btn btn-outline-dark bg-light"
+                                    style="width: 6.5rem; height: 2.5rem">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#"
+                                    id="report-bug"
+                                    class="nav-link m-2 text-center menu-item btn btn-primary text-white"
+                                    style="width: 6.5rem; height: 2.5rem">Report Bug</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="#" id="btn-logout" class="nav-link m-2 menu-item  btn btn-danger text-white"
+                                    style="width: 6.5rem; height: 2.5rem">Log out</a>
+                            </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    
+        <div class="col-lg-12">
+        <div class="container" id="container">
+            <!----------- Start of Bug Submit Form ----------->
+            <div class="row mt-4 mb-5 d-none"  id="form-container">
+                <div class="col-md-8 container text-center">
+                        
+                        
+                    <form action="" id="main-form" class="bg-white rounded pt-0 px-3 pb-3">
+                        <div class="form-group m-0 d-flex justify-content-end">
+                            <p class="m-0" style="cursor: pointer" id="close-form">Close</p>
+                        </div>
+                        <h3 class="text-black mx-auto align-self-center">Submit bug</h3>
+                        <div class="form-group">
+                            <input type="text" id="bug-name" placeholder="Bug Name" class="form-control px-1 w-100">
+                            <div class="invalid-feedback" id="invalid-bug-name">Please add a bug name</div>
+                        </div>
+                        <div class="form-group">
+                            <textarea type="text" id="bug-description" class="form-control px-1" rows="5"
+                                placeholder="Bug Description" style="height: 200px;"></textarea>
+                            <div class="invalid-feedback" id="invalid-description">Please add a description</div>
+                        </div>
+                        <div class="form-group">
+                            <input type="file" class="form-control w-100" id="bug-image"
+                                placeholder="Types of supported images: .gif, .png, .jpeg">
+                            <label for="file" class="text-white">Only .gif, .png, .jpeg</label>
+                        </div>
+                        <div class="form-group">
+                            <div class="progress" style="width: 100%">
+                                <div class="progress-bar bg-secondary" id="upload-progress" style="width: 100%">0%</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button id="bug-submit" type="button" class="btn btn-primary">Submit</button>
+                        </div>
+                        <div id="result" class=""></div>
+                    </form>
+                </div>
+            </div>
+            <!----------- End of Bug Submit Form ----------->
+
+            
+
+            <!----------- Start of Bugs ----------->
+            <div class="container text-center my-3">
+                <h3>Recently Created Bugs</h3>
+            </div>
+
+            <div class="container m-3" id="filters">
+
+                <button class="btn btn-light dropdown-toggle m-3" type="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">Filter by Status</button>
+
+                <div class="dropdown-menu">
+                    <button class="btn btn-light m-1" onclick="filterByStatus('Not Started')">Not Started</button>
+                    <button class="btn btn-primary m-1" onclick="filterByStatus('In Progress')">In Progress</button>
+                    <button class="btn btn-warning m-1" onclick="filterByStatus('Review')">Review</button>
+                    <button class="btn btn-success m-1" onclick="filterByStatus('Closed')">Closed</button>
+                    <button class="btn btn-info m-1" onclick="showAllBugs()">All</button>
+                </div>
+            </div>
+
+            <!-- <div class="container d-flex flex-wrap text-center  d-none" id="filters">
+                <div class="container row">
+                <span class="btn">Filter by Status: </span>
+                <button type="submit" class="btn btn-primary mx-1" id="filterNotStarted"
+                    onclick="filterByStatus('Not Started')">Not Started</button>
+                <button type="submit" class="btn btn-primary mx-1" id="filterInProgress"
+                    onclick="filterByStatus('In Progress')">In Progress</button>
+                <button type="submit" class="btn btn-warning mx-1 " id="filterReview"
+                    onclick="filterByStatus('Review')">Review</button>
+                <button type="submit" class="btn btn-success     mx-1" id="filterClosed"
+                    onclick="filterByStatus('Closed')">Closed</button>
+                </div>
+            </div> -->
+            
+            <div class="container">
+                <div class="row d-flex justify-content-around" id="recentBugs"></div>
+            </div>
+
+
+            <!----------- End of Bugs ----------->
+
+            
+        </div>
+    </div>
+
+
+
+    <script src="js/index.js"></script>
+    <script>
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (!user) {
+                window.location.href = "signin.html";
+            }
+        });
+    </script>
+</body>
+
+</html>
