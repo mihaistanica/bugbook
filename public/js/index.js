@@ -1,12 +1,12 @@
 var firebaseConfig = {
-    apiKey: "AIzaSyAuPekpLqLV56YcD7WHngFCmvWgPPLe63Q",
-    authDomain: "bugbook-a5ab2.firebaseapp.com",
-    databaseURL: "https://bugbook-a5ab2.firebaseio.com",
-    projectId: "bugbook-a5ab2",
-    storageBucket: "bugbook-a5ab2.appspot.com",
-    messagingSenderId: "978071698037",
-    appId: "1:978071698037:web:24d3952b6bf15fb774563c",
-    measurementId: "G-YR3TBCWD7D"
+    apiKey: "YOUR API KEY",
+    authDomain: "YOUR AUTH DOMAIN",
+    databaseURL: "YOUR DATABASE URL",
+    projectId: "YOUR PROJECT ID",
+    storageBucket: "YOUR STORAGE BUCKET",
+    messagingSenderId: "YOUR MESSENGER SENDER ID",
+    appId: "YOUR APP ID",
+    measurementId: "YOUR MEASUREMENT ID"
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
